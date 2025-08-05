@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bill Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>🧾 Bill Summary</h1>
+    <section class="controls">
+      <label for="taskSelect">Select Task:</label>
+      <select id="taskSelect">
+        <option value="1">Task 1 – Basic Bill</option>
+        <option value="2" selected>Task 2 – Final Bill with Amount</option>
+      </select>
+      <button id="generateBtn">Generate Bill</button>
+    </section>
+    <section id="billOutput" class="output"></section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
