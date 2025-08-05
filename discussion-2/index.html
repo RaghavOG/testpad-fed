@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Discussion App - D2</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discussion Portal</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <header>
+    <h1>Discussion Portal</h1>
+  </header>
+
   <div class="container">
+    <!-- Left Pane -->
     <div class="left-pane">
-      <div class="top-bar">
-        <input type="text" id="searchBox" placeholder="Search questions..." />
-        <button id="newQuestionBtn">New Question</button>
+      <div class="controls">
+        <button id="newQuestionBtn">New Question form</button>
+        <input type="text" id="searchBox" placeholder="Search questions...">
       </div>
       <ul id="questionList"></ul>
     </div>
 
+    <!-- Right Pane -->
     <div class="right-pane" id="rightPane">
-      <!-- Default: New question form -->
-      <form id="questionForm">
-        <h2>Ask a Question</h2>
-        <input type="text" id="title" placeholder="Title" required />
-        <textarea id="question" placeholder="Question" required></textarea>
-        <button type="submit">Submit</button>
-      </form>
+      <!-- Injected content -->
     </div>
   </div>
 
