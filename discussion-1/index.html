@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Discussion App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Left pane for list of questions -->
+    <div class="left-pane">
+      <h2>Questions</h2>
+      <div id="questionList"></div>
+    </div>
+
+    <!-- Right pane for form and selected question -->
+    <div class="right-pane">
+      <div id="questionForm">
+        <h2>Ask a Question</h2>
+        <input type="text" id="questionTitle" placeholder="Title" required>
+        <textarea id="questionBody" placeholder="Your question..." required></textarea>
+        <button onclick="addQuestion()">Submit Question</button>
+      </div>
+
+      <div id="discussionArea" class="hidden">
+        <h2 id="selectedQuestionTitle"></h2>
+        <p id="selectedQuestionBody"></p>
+        <button onclick="resolveQuestion()">Resolve</button>
+
+        <h3>Post a Response</h3>
+        <input type="text" id="responderName" placeholder="Your Name" required>
+        <textarea id="responderComment" placeholder="Your Response..." required></textarea>
+        <button onclick="addResponse()">Submit Response</button>
+
+        <h3>Previous Responses</h3>
+        <div id="responseList"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
