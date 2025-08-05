@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chess Board</title>
+  <style>
+    body {
+      font-family: monospace;
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    // User story 1: print function
+    function print(data) {
+      const label = document.createElement("label");
+      label.textContent = data;
+      document.body.appendChild(label);
+    }
+
+    // User story 2: newLine function
+    function newLine() {
+      const br = document.createElement("br");
+      document.body.appendChild(br);
+    }
+
+    // User story 3: board size variable
+    const board_size = 8; // you can change this to any size
+
+    // User story 4: Generate chessboard
+    for (let row = 0; row < board_size; row++) {
+      for (let col = 0; col < board_size; col++) {
+        const isEven = (row + col) % 2 === 0;
+        print(isEven ? "*" : "#");
+      }
+      newLine();
+    }
+  </script>
+</body>
+</html>
