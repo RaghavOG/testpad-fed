@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>GitHub API Fetcher</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GitHub API App</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h2>API Sample</h2>
-    <form id="githubForm">
-      <input type="text" id="username" placeholder="Github username..." required />
-      <button type="submit">Pull User Data</button>
+    <h1>API Sample</h1>
+    <form id="user-form">
+      <input type="text" id="username" placeholder="Github username..." />
+      <button id="submit">Pull User Data</button>
     </form>
-    <div id="result"></div>
+    <div id="user-info"></div>
+    <div id="repo-list"></div>
   </div>
 
   <script src="script.js"></script>
