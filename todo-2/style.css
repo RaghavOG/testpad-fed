@@ -1,0 +1,80 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  height: 100vh;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.left-pane, .right-pane {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.left-pane {
+  background-color: #f0f0f0;
+  border-right: 2px solid #ccc;
+}
+
+.right-pane {
+  background-color: #ffffff;
+}
+
+h2 {
+  margin-bottom: 1rem;
+}
+
+#taskInput {
+  width: 100%;
+  height: 150px;
+  padding: 1rem;
+  font-size: 1rem;
+  resize: none;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  background: #fff;
+  margin-bottom: 0.8rem;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+li.completed span {
+  text-decoration: line-through;
+  color: #888;
+}
+
+li span.editable {
+  flex-grow: 1;
+  margin-left: 0.5rem;
+  cursor: pointer;
+}
+
+.task-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.task-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
