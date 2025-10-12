@@ -1,0 +1,120 @@
+/* Additional layout improvements for better responsiveness */
+
+/* Ensure proper viewport behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Container query for better responsiveness */
+.app {
+  container-type: inline-size;
+}
+
+/* Better mobile experience */
+@media (max-width: 375px) {
+  .auth-card {
+    border-radius: 15px;
+  }
+  
+  .dashboard-content {
+    gap: 1rem;
+  }
+  
+  .action-button {
+    min-height: 80px;
+    padding: 1rem 0.75rem;
+  }
+}
+
+/* High DPI display optimization */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .auth-card,
+  .user-profile-card,
+  .features-card,
+  .quick-actions-card,
+  .announcements-card {
+    border: 0.5px solid rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-height: 500px) and (orientation: landscape) {
+  .app-main {
+    padding: 1rem 2rem;
+  }
+  
+  .dashboard-header h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+  
+  .auth-card {
+    padding: 1.5rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .app-header,
+  .app-footer,
+  .logout-btn {
+    display: none;
+  }
+  
+  .app {
+    background: white;
+  }
+  
+  .dashboard-content {
+    display: block;
+  }
+  
+  .user-profile-card,
+  .features-card,
+  .quick-actions-card,
+  .announcements-card {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .loading-spinner {
+    animation: none;
+    border: 4px solid #666;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .auth-card,
+  .user-profile-card,
+  .features-card,
+  .quick-actions-card,
+  .announcements-card {
+    background: white;
+    border: 2px solid #000;
+  }
+  
+  .action-button {
+    background: #000;
+    color: white;
+    border: 2px solid #000;
+  }
+  
+  .auth-button {
+    background: #000;
+    border: 2px solid #000;
+  }
+}

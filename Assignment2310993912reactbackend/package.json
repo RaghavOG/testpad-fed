@@ -1,0 +1,19 @@
+{
+  "name": "code-academy-gatekeeper",
+  "version": "1.0.0",
+  "description": "Code Academy Student Portal with Authentication System",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd node-backend && npm run dev",
+    "dev:frontend": "cd react-frontend && npm run dev",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:backend": "cd node-backend && npm start",
+    "start:frontend": "cd react-frontend && npm run build && npm run preview",
+    "install:all": "npm install && cd node-backend && npm install && cd ../react-frontend && npm install",
+    "build": "cd react-frontend && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
