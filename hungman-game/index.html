@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hangman Game</title>
+  <style>
+    body {
+      background: black;
+      color: white;
+      text-align: center;
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      margin-top: 20px;
+    }
+    .letters {
+      margin: 20px;
+    }
+    .letters button {
+      margin: 5px;
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #999;
+      cursor: pointer;
+      background: white;
+      color: black;
+      text-transform: lowercase;
+    }
+    .letters button:disabled {
+      background: gray;
+      cursor: not-allowed;
+      color: white;
+    }
+    .word {
+      margin: 20px;
+      font-size: 30px;
+      letter-spacing: 10px;
+    }
+    .question {
+      margin: 20px;
+      font-size: 20px;
+    }
+    .lives {
+      font-size: 18px;
+      margin-top: 15px;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 22px;
+      font-weight: bold;
+      color: yellow;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>HANGMAN GAME</h1>
+  <p>Use the alphabet below to guess the word, or click hint to get a clue.</p>
+  <div class="letters"></div>
+  <div class="question">The Chosen Category Is Cities</div>
+  <div class="word"></div>
+  <div class="lives">You have 10 lives</div>
+  <div class="result"></div>
+
+  <script>
+    const apiURL = "http://codeapi.net.cws18.my-hosting-panel.com/hangman.php";
+
+    let question = "";
+    let answer = "";
+    let displayedWord = [];
+    let lives = 10;
+
+    function createLetters() {
+      const lettersDiv = document.querySelector(".letters");
+      for (let i = 97; i <= 122; i++) {   // lowercase a-z
+        let btn = document.createElement("button");
+        btn.innerText = String.fromCharCode(i);
+        btn.onclick = () => checkLetter(btn);
+        lettersDiv.appendChild(btn);
+      }
+    }
+
+    async function fetchQuestion() {
+      try {
+        const res = await fetch(apiURL);
+        const data = await res.json();
+        const random = data[Math.floor(Math.random() * data.length)];
+        question = random.Question;
+        answer = random.Answer.toUpperCase();
+        displayedWord = Array(answer.length).fill("_");
+        render();
+      } catch (e) {
+        question = "What is the Capital of Himachal Pradesh ?";
+        answer = "SHIMLA";
+        displayedWord = Array(answer.length).fill("_");
+        render();
+      }
+    }
+
+    function render() {
+      document.querySelector(".question").innerText = question;
+      document.querySelector(".word").innerText = displayedWord.join(" ");
+      document.querySelector(".lives").innerText = `You have ${lives} lives`;
+    }
+
+    function checkLetter(btn) {
+      let letter = btn.innerText.toUpperCase();
+      btn.disabled = true;
+
+      if (answer.includes(letter)) {
+        for (let i = 0; i < answer.length; i++) {
+          if (answer[i] === letter) {
+            displayedWord[i] = letter;
+          }
+        }
+      } else {
+        lives--;
+      }
+      render();
+      checkGameStatus();
+    }
+
+    function checkGameStatus() {
+      if (!displayedWord.includes("_")) {
+        document.querySelector(".result").innerText = "🎉 You Won!";
+        disableAll();
+      } else if (lives <= 0) {
+        document.querySelector(".result").innerText = "💀 Game Over! Answer was: " + answer;
+        disableAll();
+      }
+    }
+
+    function disableAll() {
+      document.querySelectorAll(".letters button").forEach(btn => btn.disabled = true);
+    }
+
+    createLetters();
+    fetchQuestion();
+  </script>
+</body>
+</html>
