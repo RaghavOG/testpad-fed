@@ -90,6 +90,34 @@ app.post('/api/register', async (req, res) => {
     try {
         const { name, email, mobile, password, sponsorCode, position } = req.body;
 
+        const userCount = await User.countDocuments();
+        
+        if (userCount === 0) {
+            // This is the first user (root user)
+            const memberCode = await generateMemberCode();
+            const hashedPassword = await bcrypt.hash(password, 10);
+            
+            const rootUser = new User({
+                name,
+                email,
+                mobile,
+                password: hashedPassword,
+                memberCode,
+                sponsorCode: "ROOT",
+                leftCount: 0,
+                rightCount: 0
+            });
+            
+            await rootUser.save();
+            
+            return res.status(201).json({
+                message: 'Root user registration successful',
+                memberCode,
+                isRoot: true
+            });
+        }
+
+        // For non-root users
         const sponsor = await User.findOne({ memberCode: sponsorCode });
         if (!sponsor) {
             return res.status(400).json({ error: 'Invalid Sponsor Code' });
