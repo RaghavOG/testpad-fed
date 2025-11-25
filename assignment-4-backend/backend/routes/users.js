@@ -3,7 +3,11 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const auth = require('../middleware/auth');
+const EmailService = require('../services/EmailService');
 const router = express.Router();
+
+// Initialize email service
+const emailService = new EmailService();
 
 // Register new user
 router.post('/register', async (req, res) => {
@@ -47,6 +51,14 @@ router.post('/register', async (req, res) => {
     });
 
     await user.save();
+
+    // Send welcome email
+    try {
+      await emailService.sendWelcomeEmail(user);
+    } catch (emailError) {
+      console.error('Welcome email failed:', emailError);
+      // Don't fail registration if email fails
+    }
 
     // Generate JWT token
     const token = jwt.sign(

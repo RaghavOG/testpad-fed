@@ -4,7 +4,11 @@ const Product = require('../models/Product');
 const Order = require('../models/Order');
 const Review = require('../models/Review');
 const { auth, adminAuth } = require('../middleware/auth');
+const EmailService = require('../services/EmailService');
 const router = express.Router();
+
+// Initialize email service
+const emailService = new EmailService();
 
 // Get dashboard statistics
 router.get('/stats', adminAuth, async (req, res) => {
@@ -274,6 +278,9 @@ router.put('/orders/:orderId/status', adminAuth, async (req, res) => {
       });
     }
 
+    // Store old status to check if it changed
+    const oldStatus = order.orderStatus;
+
     // Update order fields
     if (orderStatus) order.orderStatus = orderStatus;
     if (trackingNumber) order.trackingNumber = trackingNumber;
@@ -287,6 +294,19 @@ router.put('/orders/:orderId/status', adminAuth, async (req, res) => {
     }
 
     await order.save();
+
+    // Send email notification if status changed
+    if (orderStatus && oldStatus !== orderStatus) {
+      try {
+        const user = await User.findById(order.user);
+        if (user) {
+          await emailService.sendOrderStatusUpdate(user, order);
+        }
+      } catch (emailError) {
+        console.error('Email sending failed:', emailError);
+        // Don't fail the order update if email fails
+      }
+    }
 
     res.json({
       success: true,

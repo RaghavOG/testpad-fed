@@ -11,8 +11,10 @@ import ProductPage from './pages/ProductPage';
 import CartPage from './pages/CartPage';
 import ProfilePage from './pages/ProfilePage';
 import CheckoutPage from './pages/CheckoutPage';
+import AdminLayout from './components/admin/AdminLayout';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
+import { useAuth } from './context/AuthContext';
 
 const theme = createTheme({
   palette: {
@@ -98,27 +100,55 @@ const theme = createTheme({
   },
 });
 
+const AppContent = () => {
+  const { user } = useAuth();
+
+  return (
+    <Router>
+      <Routes>
+        {/* Admin Routes */}
+        <Route 
+          path="/admin/*" 
+          element={
+            user?.role === 'admin' ? (
+              <AdminLayout />
+            ) : (
+              <Box sx={{ p: 4, textAlign: 'center' }}>
+                <h1>Access Denied</h1>
+                <p>You don't have permission to access this area.</p>
+              </Box>
+            )
+          } 
+        />
+        
+        {/* Public Routes */}
+        <Route path="/*" element={
+          <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <Navbar />
+            <Box component="main" sx={{ flexGrow: 1 }}>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/product/:id" element={<ProductPage />} />
+                <Route path="/cart" element={<CartPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
+              </Routes>
+            </Box>
+            <Footer />
+          </Box>
+        } />
+      </Routes>
+    </Router>
+  );
+};
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AuthProvider>
         <CartProvider>
-          <Router>
-            <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-              <Navbar />
-              <Box component="main" sx={{ flexGrow: 1 }}>
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/product/:id" element={<ProductPage />} />
-                  <Route path="/cart" element={<CartPage />} />
-                  <Route path="/profile" element={<ProfilePage />} />
-                  <Route path="/checkout" element={<CheckoutPage />} />
-                </Routes>
-              </Box>
-              <Footer />
-            </Box>
-          </Router>
+          <AppContent />
         </CartProvider>
       </AuthProvider>
     </ThemeProvider>

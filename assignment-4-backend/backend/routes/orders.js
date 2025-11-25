@@ -3,7 +3,11 @@ const Order = require('../models/Order');
 const Product = require('../models/Product');
 const User = require('../models/User');
 const { auth } = require('../middleware/auth');
+const EmailService = require('../services/EmailService');
 const router = express.Router();
+
+// Initialize email service
+const emailService = new EmailService();
 
 // Create new order
 router.post('/', auth, async (req, res) => {
@@ -99,6 +103,15 @@ router.post('/', auth, async (req, res) => {
 
     // Clear user's cart
     await User.findByIdAndUpdate(req.user._id, { cart: [] });
+
+    // Send order confirmation email
+    try {
+      const user = await User.findById(req.user._id);
+      await emailService.sendOrderConfirmation(user, order);
+    } catch (emailError) {
+      console.error('Email sending failed:', emailError);
+      // Don't fail the order if email fails
+    }
 
     res.status(201).json({
       success: true,
