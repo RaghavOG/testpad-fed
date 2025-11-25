@@ -1,0 +1,19 @@
+{
+  "name": "shophub-ecommerce",
+  "version": "1.0.0",
+  "description": "Full Stack E-commerce Application",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && npm run dev",
+    "client": "cd frontend && npm start",
+    "build": "cd frontend && npm run build",
+    "seed": "cd backend && npm run seed",
+    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": ["ecommerce", "react", "nodejs", "mongodb", "full-stack"],
+  "author": "Your Name",
+  "license": "MIT"
+}
