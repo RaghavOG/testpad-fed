@@ -26,16 +26,28 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import AuthDialog from '../components/AuthDialog';
 
 const CartPage = () => {
   const navigate = useNavigate();
   const { items, removeFromCart, updateQuantity, clearCart, getCartTotal, getCartCount } = useCart();
+  const { isAuthenticated } = useAuth();
+  const [authDialogOpen, setAuthDialogOpen] = React.useState(false);
 
   const handleQuantityChange = (productId, newQuantity) => {
     if (newQuantity === 0) {
       removeFromCart(productId);
     } else {
       updateQuantity(productId, newQuantity);
+    }
+  };
+
+  const handleCheckout = () => {
+    if (isAuthenticated) {
+      navigate('/checkout');
+    } else {
+      setAuthDialogOpen(true);
     }
   };
 
@@ -294,6 +306,7 @@ const CartPage = () => {
                     variant="contained"
                     size="large"
                     fullWidth
+                    onClick={handleCheckout}
                     sx={{
                       py: 1.5,
                       fontWeight: 600,
@@ -303,7 +316,7 @@ const CartPage = () => {
                       },
                     }}
                   >
-                    Proceed to Checkout
+                    {isAuthenticated ? 'Proceed to Checkout' : 'Login to Checkout'}
                   </Button>
 
                   {/* Security Features */}
@@ -327,6 +340,12 @@ const CartPage = () => {
           </Grid>
         </Grid>
       </Container>
+      
+      {/* Auth Dialog */}
+      <AuthDialog 
+        open={authDialogOpen} 
+        onClose={() => setAuthDialogOpen(false)} 
+      />
     </Box>
   );
 };
